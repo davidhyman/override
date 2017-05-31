@@ -102,6 +102,9 @@ allow complete multiplexing across those dimensions.
 example, defining fully qualified urls at import time based on a single hostname.
 To do this, you can either define a post-import function or include another layer in your
  import hierarchy.
+- As a general rule, `constants` are not configurable and are best kept in a separate file structure.
+They can then be attached to the base config, imported after the config, or just
+kept entirely independent.
 - The system is built to handle nested configuration structures (e.g. Django or Celery objects).
 However your config code will also need to handle this correctly: e.g. dictionary key sets and pops
  instead of re-assignment of references.
