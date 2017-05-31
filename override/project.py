@@ -25,21 +25,35 @@ _RTU('{{runtime_override_key}}').apply_all(locals())
 
 class Project:
     """
-    A project is an instance of the configuration system.
+    A project is an instance of a configuration system.
+
+    Describes where config modules can be imported from
+    and where the shim file is to be placed
     """
 
     def __init__(
             self,
             config_path='configs',
             config_module='config.py',
-            template=DEFAULT_TEMPLATE,
-            template_path=None,
             relative_root=None,
-            runtime_override_key=None,
+            runtime_override_key='override',
             post_import_handler=None,
             post_load_handler=None,
-            post_configure_callback=None
+            post_configure_callback=None,
+            template=DEFAULT_TEMPLATE,
+            template_path=None,
     ):
+        """
+        :param config_path: full name of the shim file to be generated (path can be relative)
+        :param config_module: python module path to use when importing config variants
+        :param relative_root: [opt] path from which others are relative
+        :param runtime_override_key: [opt] the string used when overriding settings for cli and env
+        :param post_import_handler: [opt] string name of function to invoke after hierarchy load
+        :param post_load_handler: [opt] string name of function to invoke after hierarchy + overrides load
+        :param post_configure_callback: [opt] function to be directly called whenever this config is written
+        :param template: [opt] a string defining the shim
+        :param template_path: [opt] a path to a file containing a shim template (path can be relative)
+        """
         self.config_path = config_path
         self.config_module = config_module
         self.template_path = template_path
@@ -91,6 +105,7 @@ class Project:
             post_import_handler=self.post_import_handler,
             post_load_handler=self.post_load_handler,
         ))
+
         logger.info('writing config `%s` into %s', self.selected, self.config_path)
         self.validate_config()
         with open(self.config_path, 'w') as fh:

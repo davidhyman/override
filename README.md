@@ -1,14 +1,21 @@
 # Override #
 A simple, pure Python configuration tool.
 
-TL;DR: It inserts a templated Python shim file between your application and your config.
+TL;DR: It inserts a templated Python shim file between your application and your config, at 'build time'.
+
+* [Usage](#usage)
+  + [Pure Python Configs](#pure-python-configs)
+  + [Overriding](#overriding)
+  + [Template](#template)
+  + [Tips, Tricks & Pitfalls](#tips--tricks---pitfalls)
+* [API](#api)
 
 ## Summary ##
 Instead of juggling lots of configurations and copying between them, you can:
 - Use Python to obtain and modify configurations as normal.
 - Inherit configurations using standard Python import behaviour.
 - Change configuration parameters at run time using command line or environment variables.
-- Leverages import caching - once the import hierarchy is resolved, other code from the process
+- Leverage import caching - once the import hierarchy is resolved, other code from the process
  will be using Python's import cache. There are no repetitive
  function calls involved in 'getting' your config.
 - Keep your local/development config `.gitignore`'d, and it will inherit new
@@ -24,20 +31,6 @@ The simplest use case looks something like this:
            shim
              |
        application
-```
-
-### Template ###
-The shim looks like this (yes, pep8 compliant):
-```
-# -*- coding: utf-8 -*-
-# This file is auto-generated from settings in:
-# C:\Users\david\Documents\coding\override\example\example2.py
-
-from my_configs.one import *
-post_import(locals())
-
-from override import RuntimeUpdates as _RTU
-_RTU('set').apply_all(locals())
 ```
 
 ## Usage ##
@@ -74,20 +67,34 @@ Here's an extreme example of hierarchy, in which each file imports the one above
 - some_code.py  # and, at last, you use your config variable
 
 ### Overriding ###
-Normally you would just run your project:
+Normally you would just run your project, and use the config in your code:
 ```
 python my_project.py
 ```
 
-But you can override your settings on the command line:
+But you can override your config on the command line:
 ```
-python my_project.py --set=key.subkey=value
+python my_project.py --override=key.subkey=value
 ```
 
 Or using an environment variable:
 ```
-export set=key.subkey=value
+export override=key.subkey=value
 python my_project.py
+```
+
+### Template ###
+The shim looks like this (yes, pep8 compliant):
+```
+# -*- coding: utf-8 -*-
+# This file is auto-generated from settings in:
+# C:\Users\david\Documents\coding\override\example\example2.py
+
+from my_configs.one import *
+post_import(locals())
+
+from override import RuntimeUpdates as _RTU
+_RTU('set').apply_all(locals())
 ```
 
 ### Tips, Tricks & Pitfalls ###
