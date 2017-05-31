@@ -2,7 +2,7 @@
 for example, you would execute this code as part of a build or initial setup step
 """
 
-from override.tools import Project
+from project import Project
 
 
 def run():

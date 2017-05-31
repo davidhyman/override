@@ -5,7 +5,7 @@ or by exec'ing the Project system itself:
 python -c "from example.example2 import P; P.apply_config('one')"
 """
 
-from override.tools import Project
+from project import Project
 
 P = Project(
     config_module='my_configs',
