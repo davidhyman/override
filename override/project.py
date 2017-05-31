@@ -4,7 +4,6 @@ import traceback
 import pystache
 from logs import logger
 
-
 DEFAULT_TEMPLATE = '''# -*- coding: utf-8 -*-
 # This file is auto-generated from settings in:
 # {{template_blame}}
@@ -30,22 +29,22 @@ class Project:
     """
 
     def __init__(
-        self,
-        config_path='configs',
-        config_module='config.py',
-        template=DEFAULT_TEMPLATE,
-        template_path=None,
-        relative_root=None,
-        runtime_override_key=None,
-        post_import_handler=None,
-        post_load_handler=None,
+            self,
+            config_path='configs',
+            config_module='config.py',
+            template=DEFAULT_TEMPLATE,
+            template_path=None,
+            relative_root=None,
+            runtime_override_key=None,
+            post_import_handler=None,
+            post_load_handler=None,
     ):
         self.config_path = config_path
         self.config_module = config_module
         self.template_path = template_path
         self.template = template
         self.relative_root = os.path.abspath(os.path.dirname(relative_root)) if relative_root else None
-        self.runtime_override_key=runtime_override_key
+        self.runtime_override_key = runtime_override_key
         self.post_import_handler = post_import_handler
         self.post_load_handler = post_load_handler
 
@@ -82,7 +81,7 @@ class Project:
         if name:
             self.selected = name
 
-        templated = pystache.render(self.template, dict(
+        populated = pystache.render(self.template, dict(
             template_blame=self.caused_by,
             config_module=self.config_module,
             config_name=self.selected,
@@ -93,6 +92,6 @@ class Project:
         logger.info('writing config `%s` into %s', self.selected, self.config_path)
         self.validate_config()
         with open(self.config_path, 'w') as fh:
-            fh.write(templated)
+            fh.write(populated)
 
         return self

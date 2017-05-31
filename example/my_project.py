@@ -4,11 +4,12 @@ As long as the system has been instantiated, you will have
 code completion and inheritance working as expected in Python
 """
 
+import pprint
 import built_config
 
 
 def run():
-    print(dir(built_config))
+    pprint.pprint({k: v for k, v in vars(built_config).items() if not k.startswith('__')})
     print('starting project. the colour is %s, the area is %s' % (built_config.colour, built_config.area))
     return built_config
 
