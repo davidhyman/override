@@ -1,12 +1,12 @@
 import argparse
 import ast
 import importlib
+import logging
 import os
 import traceback
 
 import pystache
 
-# TODO: logging instead of printing
 # TODO: boilerplate handling (or silencing)
 # TODO: alternative handling logic for updates (tuples, lists, sets etc)
 # TODO: think of a way round the 'test mode' problem
@@ -33,6 +33,19 @@ _RTU('{{runtime_override_key}}').apply_all(locals())
 {{post_load_handler}}(locals())
 {{/post_load_handler}}
 '''
+
+
+def get_logger(name):
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(module)s.%(name)s: %(message)s')
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    console_log = logging.StreamHandler()
+    console_log.setLevel(logging.INFO)
+    console_log.setFormatter(formatter)
+    logger.addHandler(console_log)
+    return logger
+
+logger = get_logger('override')
 
 
 class RuntimeUpdates:
@@ -71,7 +84,7 @@ class RuntimeUpdates:
                 v = ast.literal_eval(v)
             except (SyntaxError, ValueError):
                 pass  # else string anyway
-            print('setting %s -> %r %s as %s' % (k, v, reason, type(v).__name__))
+            logger.info('setting %s -> %r %s as %s', k, v, reason, type(v).__name__)
             self.deep_update(original, k, v)
         return self
 
@@ -148,7 +161,7 @@ class Project:
             post_import_handler=self.post_import_handler,
             post_load_handler=self.post_load_handler,
         ))
-        print('writing config `%s` into %s' % (self.selected, self.config_path))
+        logger.info('writing config `%s` into %s', self.selected, self.config_path)
         self.validate_config()
         with open(self.config_path, 'w') as fh:
             fh.write(templated)
