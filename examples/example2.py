@@ -7,8 +7,9 @@ python -c "from example.example2 import P; P.apply_config('one')"
 
 from project import Project
 
+
 P = Project(
-    config_module='my_configs',
+    config_module='examples.my_configs',
     config_path='built_config.py',
     relative_root=__file__,
     runtime_override_key='fizz',

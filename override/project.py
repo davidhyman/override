@@ -14,7 +14,7 @@ from {{config_module}}.{{config_name}} import *
 {{/post_import_handler}}
 
 {{#runtime_override_key}}
-from override import RuntimeUpdates as _RTU
+from override import RuntimeUpdates as _RTU  # noqa
 _RTU('{{runtime_override_key}}').apply_all(locals())
 {{/runtime_override_key}}
 {{#post_load_handler}}
@@ -38,6 +38,7 @@ class Project:
             runtime_override_key=None,
             post_import_handler=None,
             post_load_handler=None,
+            post_configure_callback=None
     ):
         self.config_path = config_path
         self.config_module = config_module
@@ -47,6 +48,7 @@ class Project:
         self.runtime_override_key = runtime_override_key
         self.post_import_handler = post_import_handler
         self.post_load_handler = post_load_handler
+        self.post_configure_callback = post_configure_callback
 
         # catch the current stack to see where we were invoked, and then str it to avoid holding references
         self.caused_by = str(traceback.extract_stack()[-2][0])
@@ -93,5 +95,9 @@ class Project:
         self.validate_config()
         with open(self.config_path, 'w') as fh:
             fh.write(populated)
+
+        if self.post_configure_callback:
+            logger.debug('invoking callback: %r', self.post_configure_callback)
+            self.post_configure_callback()
 
         return self

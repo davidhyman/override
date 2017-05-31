@@ -5,7 +5,7 @@ code completion and inheritance working as expected in Python
 """
 
 import pprint
-import built_config
+from examples import built_config
 
 
 def run():
