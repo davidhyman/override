@@ -12,7 +12,10 @@ class TestUpdates(BaseCase):
             C = 3
             D = {
                 'e': 4,
-                'f': 5
+                'f': 5,
+                'g': {
+                    'h': 'thats far enough'
+                }
             }
 
     def test_shallow_class(self):
@@ -34,3 +37,8 @@ class TestUpdates(BaseCase):
         self.assertEqual(self.MyClass.Y, 5.5)
         RuntimeUpdates().module_update(self.MyClass, {'Z': "'5'"}, 'test')
         self.assertEqual(self.MyClass.Z, '5')
+
+    def test_deep_dict(self):
+        expected = 'yes'
+        RuntimeUpdates().module_update(self.MyClass, {'MySubClass.D.g.h': expected}, 'test')
+        self.assertEqual(self.MyClass.MySubClass.D['g']['h'], expected)
