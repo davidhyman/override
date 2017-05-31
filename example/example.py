@@ -1,13 +1,17 @@
+"""
+for example, you would execute this code as part of a build or initial setup step
+"""
+
 from override.tools import Project
 
 
 def run():
     Project(
-        config_module='example.my_configs',
-        config_path='configuration/config.py',
+        config_module='my_configs',
+        config_path='built_config.py',
         relative_root=__file__,
         runtime_override_key='fizz',
-    ).select_config('two').apply_config()
+    ).apply_config('two')
 
 if __name__ == '__main__':
     run()

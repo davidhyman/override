@@ -100,3 +100,6 @@ ENV/
 
 # editors
 .idea*
+
+# config files
+*config*.py
