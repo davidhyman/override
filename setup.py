@@ -4,9 +4,9 @@ with open('requirements.txt') as fh:
     requirements = fh.readlines()
 
 setup(
-    name='PyOverride',
+    name='pyoverride',
     packages=['override'],
-    version='0.9.0',
+    version='0.9.2',
     license='MIT',
     description='Python project configuration',
     author='David Hyman',

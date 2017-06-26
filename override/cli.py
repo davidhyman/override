@@ -1,8 +1,8 @@
 import argparse
 import importlib
 
-from project import Project
-from updates import RuntimeUpdates
+from override.project import Project
+from override.updates import RuntimeUpdates
 
 
 def init_from_command():

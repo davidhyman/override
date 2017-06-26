@@ -2,7 +2,7 @@ import argparse
 import ast
 import os
 
-from logs import logger
+from override.logs import logger
 
 
 class RuntimeUpdates:

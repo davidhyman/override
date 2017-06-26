@@ -2,7 +2,7 @@ import os
 import traceback
 
 import pystache
-from logs import logger
+from override.logs import logger
 
 DEFAULT_TEMPLATE = '''# -*- coding: utf-8 -*-
 # This file is auto-generated from settings in:
