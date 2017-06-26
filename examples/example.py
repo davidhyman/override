@@ -2,7 +2,7 @@
 for example, you would execute this code as part of a build or initial setup step
 """
 
-from project import Project
+from override.project import Project
 
 
 def after_configuration_write():

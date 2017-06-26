@@ -1,5 +1,5 @@
 from tests.base import BaseCase
-from updates import RuntimeUpdates
+from override.updates import RuntimeUpdates
 
 
 class TestUpdates(BaseCase):
