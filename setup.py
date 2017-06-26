@@ -23,4 +23,5 @@ setup(
     ],
     python_requires='>=3',
     install_requires=requirements,
+    tests_require=['pytest', 'coverage']
 )
