@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/davidhyman/override.svg?branch=master)](https://travis-ci.org/davidhyman/override)
+[![Coverage Status](https://coveralls.io/repos/github/davidhyman/override/badge.svg?branch=master)](https://coveralls.io/github/davidhyman/override?branch=master)
+
 # Override #
 A simple, pure Python configuration tool.
 
